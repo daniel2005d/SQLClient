@@ -17,15 +17,15 @@ query positional argument
 Query is a positional argument
 ```
 
-Positional argument has a diferent kinds of commands like:
+Positional arguments offer various commands, including:
 
 * version: Retrieve the MSSQL Version
 * tables: Retrieve the object_id, name,create_date fields of the tables.
-* username: The name of the current username
-* linkedservers: Retrieve servers linked to server.
-* users: Get all users excluding system users.
-* myrigths: Retrieve all user rigths.
-* isadmin: Check if the user is admin or not.
+* username: Display the current username.
+* linkedservers: Retrieve linked servers.
+* users: Get all users, excluding system users.
+* myrigths: Retrieve all user rights.
+* isadmin: Check if the user is and admin or not.
 * enablecmd: Enable **xp_cmdshell**
 * disablecmd: Disable **xp_cmdshell**
 
