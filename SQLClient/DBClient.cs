@@ -17,14 +17,15 @@ namespace SQLClient
             this._options = options;
         }
 
-        internal DataTable Run()
+        internal DataSet Run()
         {
-            if (this._options.Command.ToLower().StartsWith("select"))
+            if (this._options.Command.ToLower().Contains("select"))
             {
-                return this.Select();
+                return this.Select(this._options.Command);
             }
             else
             {
+                DataSet ds = new DataSet();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Result");
                 using (SqlConnection oConnect = new SqlConnection(this.ConnectionString))
@@ -39,23 +40,40 @@ namespace SQLClient
                     }
                 }
 
-                return dt;
+                ds.Tables.Add(dt);
+                return ds;
             }
         }
 
 
-        internal DataTable Select()
+        internal DataSet Select(string query)
         {
             DataSet ds = new DataSet();
             using (SqlConnection oConnect = new SqlConnection(this.ConnectionString))
             {
-                using (SqlDataAdapter adapter = new SqlDataAdapter(this._options.Command, oConnect))
+                using (SqlDataAdapter adapter = new SqlDataAdapter(query, oConnect))
                 {
                     adapter.Fill(ds);
                 }
             }
 
-            return ds.Tables[0];
+            return ds;
+        }
+
+        internal object ExecuteScalar(string query)
+        {
+            object result = null;
+            using (SqlConnection oConnect = new SqlConnection(this.ConnectionString))
+            {
+
+                using (SqlCommand cmd = new SqlCommand(query, oConnect))
+                {
+                    oConnect.Open();
+                    result = cmd.ExecuteScalar();
+                }
+            }
+
+            return result;
         }
 
         private string ConnectionString
